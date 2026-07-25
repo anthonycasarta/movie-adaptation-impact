@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Wikipedia adaptations fixture</title>
+  </head>
+  <body>
+    <main>
+      <table id="adaptation-table-standard">
+        <thead>
+          <tr>
+            <th>Fiction work(s)</th>
+            <th>Film adaptation(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="standard-pair">
+            <td><i><a href="/wiki/Example_Book">Example Book</a></i> <sup class="reference">[1]</sup></td>
+            <td><i><a href="/wiki/Example_Film">Example Film</a></i></td>
+          </tr>
+          <tr id="multiple-films-1">
+            <td rowspan="2"><i><a href="/wiki/Multiple_Adaptations_Book">Multiple Adaptations Book</a></i></td>
+            <td><i><a href="/wiki/First_Film">First Film</a></i></td>
+          </tr>
+          <tr id="multiple-films-2">
+            <td><i><a href="/wiki/Second_Film">Second Film</a></i></td>
+          </tr>
+          <tr id="unlinked-titles">
+            <td><i>Unlinked Book</i> <span class="author">by Example Author</span> <span class="year">(1999)</span> <sup class="reference">[2]</sup></td>
+            <td><i>Unlinked Film</i> <span class="year">(2001)</span></td>
+          </tr>
+          <tr id="unicode-titles">
+            <td><i><a href="/wiki/Les_Mis%C3%A9rables">Les Misérables</a></i> <span class="note">French title</span></td>
+            <td><i><a href="/wiki/Les_Mis%C3%A9rables_(film)">Les Misérables</a></i> <span class="note">translated title</span></td>
+          </tr>
+          <tr id="translated-alternative-titles">
+            <td><i><a href="/wiki/Primary_Title">Primary Title</a></i> <span class="translation">Primary Title / Titre principal</span></td>
+            <td><i><a href="/wiki/Primary_Film">Primary Film</a></i> <span class="translation">Primary Film / Film principal</span></td>
+          </tr>
+          <tr id="metadata-titles">
+            <td><i><a href="/wiki/Metadata_Book">Metadata Book</a></i> <span class="author">by Example Writer</span> <span class="year">(1988)</span> <span class="translation">translated title</span> <span class="note">explanatory note</span></td>
+            <td><i><a href="/wiki/Metadata_Film">Metadata Film</a></i> <span class="year">(1991)</span> <span class="note">explanatory note</span></td>
+          </tr>
+          <tr id="blank-row">
+            <td></td>
+            <td><i><a href="/wiki/Blank_Film">Blank Film</a></i></td>
+          </tr>
+          <tr id="malformed-row">
+            <td colspan="2">Malformed row with no adaptation cells</td>
+          </tr>
+          <tr id="same-as-above-source">
+            <td><i><a href="/wiki/Source_Book">Source Book</a></i></td>
+            <td><i><a href="/wiki/Source_Film">Source Film</a></i></td>
+          </tr>
+          <tr id="same-as-above-valid">
+            <td>same as above</td>
+            <td><i><a href="/wiki/Third_Film">Third Film</a></i></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="same-as-above-ambiguous-table">
+        <thead>
+          <tr>
+            <th>Fiction work(s)</th>
+            <th>Film adaptation(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="same-as-above-ambiguous">
+            <td>same as above</td>
+            <td><i><a href="/wiki/Ambiguous_Film">Ambiguous Film</a></i></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="unrelated-table">
+        <thead>
+          <tr>
+            <th>Not a Fiction Header</th>
+            <th>Not a Film Header</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ignored Book</td>
+            <td>Ignored Film</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="changed-header-table">
+        <thead>
+          <tr>
+            <th>Fiction work(s)</th>
+            <th>Motion picture adaptation(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><i><a href="/wiki/Changed_Header_Book">Changed Header Book</a></i></td>
+            <td><i><a href="/wiki/Changed_Header_Film">Changed Header Film</a></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

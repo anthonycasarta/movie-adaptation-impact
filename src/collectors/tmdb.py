@@ -1,0 +1,1 @@
+"""TMDB data collector module."""

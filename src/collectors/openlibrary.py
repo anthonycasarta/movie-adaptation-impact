@@ -1,0 +1,1 @@
+"""OpenLibrary data collector module."""
