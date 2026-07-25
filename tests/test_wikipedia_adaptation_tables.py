@@ -65,3 +65,29 @@ def test_case_sensitive_headers_raise_missing_exact_header(
         parse_adaptation_page(html)
 
     assert missing_header in str(exc_info.value)
+
+
+def test_split_header_rows_raise_same_physical_row_error() -> None:
+    book_header_row = "<tr><th>Fiction work(s)</th></tr>"
+    movie_header_row = "<tr><th>Film adaptation(s)</th></tr>"
+    table_html = "<table><thead>" + book_header_row + movie_header_row + "</thead></table>"
+    html = "<html><body>" + table_html + "</body></html>"
+
+    with pytest.raises(WikipediaAdaptationError) as exc_info:
+        parse_adaptation_page(html)
+
+    assert "same physical row" in str(exc_info.value)
+
+
+def test_reversed_required_column_order_preserves_mapping() -> None:
+    table_fragment = _table_fragment(
+        "Film adaptation(s)",
+        "Fiction work(s)",
+        first_title="Film",
+        second_title="Book",
+    )
+    html = "<html><body>" + table_fragment + "</body></html>"
+    result = parse_adaptation_page(html)
+
+    assert result.tables_parsed == 1
+    assert result.pairs == [{"book_title": "Book", "movie_title": "Film"}]
