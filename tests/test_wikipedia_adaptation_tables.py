@@ -46,3 +46,22 @@ def test_nested_markup_and_extra_whitespace_are_normalized() -> None:
     result = parse_adaptation_page(html)
 
     assert result.tables_parsed == 1
+
+
+@pytest.mark.parametrize(
+    "book_header,movie_header,missing_header",
+    [
+        ("fiction work(s)", "Film adaptation(s)", "Fiction work(s)"),
+        ("Fiction work(s)", "film adaptation(s)", "Film adaptation(s)"),
+    ],
+)
+def test_case_sensitive_headers_raise_missing_exact_header(
+    book_header: str, movie_header: str, missing_header: str
+) -> None:
+    table_fragment = _table_fragment(book_header, movie_header)
+    html = "<html><body>" + table_fragment + "</body></html>"
+
+    with pytest.raises(WikipediaAdaptationError) as exc_info:
+        parse_adaptation_page(html)
+
+    assert missing_header in str(exc_info.value)
