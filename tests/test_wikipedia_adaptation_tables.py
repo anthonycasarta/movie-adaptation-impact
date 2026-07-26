@@ -102,3 +102,13 @@ def test_unrelated_columns_do_not_change_mapping() -> None:
 
     assert result.tables_parsed == 1
     assert result.pairs == [{"book_title": "Book", "movie_title": "Film"}]
+
+
+def test_unrelated_table_is_ignored_when_valid_table_exists() -> None:
+    unrelated_table = "<table><thead><tr><th>Nothing</th><th>Else</th></tr></thead></table>"
+    valid_table = _table_fragment("Fiction work(s)", "Film adaptation(s)")
+    html = "<html><body>" + unrelated_table + valid_table + "</body></html>"
+    result = parse_adaptation_page(html)
+
+    assert result.tables_parsed == 1
+    assert result.pairs == [{"book_title": "Book", "movie_title": "Film"}]
