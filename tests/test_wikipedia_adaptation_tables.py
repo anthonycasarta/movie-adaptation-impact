@@ -169,3 +169,13 @@ def test_missing_exact_required_header_raises_error(
         parse_adaptation_page(html)
 
     assert missing_header in str(exc_info.value)
+
+
+def test_no_recognizable_table_error_mentions_missing_table() -> None:
+    table_html = "<table><thead><tr><th>Unrelated</th><th>Headers</th></tr></thead></table>"
+    html = "<html><body>" + table_html + "</body></html>"
+
+    with pytest.raises(WikipediaAdaptationError) as exc_info:
+        parse_adaptation_page(html)
+
+    assert "no recognizable adaptation table" in str(exc_info.value)
