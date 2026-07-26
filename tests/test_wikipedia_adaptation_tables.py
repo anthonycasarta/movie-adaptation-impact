@@ -135,3 +135,18 @@ def test_two_valid_tables_are_parsed_in_document_order() -> None:
         {"book_title": "Book One", "movie_title": "Film One"},
         {"book_title": "Book Two", "movie_title": "Film Two"},
     ]
+
+
+def test_changed_header_table_is_ignored_when_valid_table_exists() -> None:
+    changed_header_table = _table_fragment(
+        "Fiction work(s)",
+        "Motion picture adaptation(s)",
+        first_title="Ignored Book",
+        second_title="Ignored Film",
+    )
+    valid_table = _table_fragment("Fiction work(s)", "Film adaptation(s)")
+    html = "<html><body>" + changed_header_table + valid_table + "</body></html>"
+    result = parse_adaptation_page(html)
+
+    assert result.tables_parsed == 1
+    assert result.pairs == [{"book_title": "Book", "movie_title": "Film"}]
