@@ -179,3 +179,16 @@ def test_no_recognizable_table_error_mentions_missing_table() -> None:
         parse_adaptation_page(html)
 
     assert "no recognizable adaptation table" in str(exc_info.value)
+
+
+def test_valid_looking_nested_table_is_ignored_entirely() -> None:
+    header_row = "<tr><th>Fiction work(s)</th><th>Film adaptation(s)</th></tr>"
+    data_row = "<tr><td><i>Book</i></td><td><i>Film</i></td></tr>"
+    nested_table = "<table><thead>" + header_row + "</thead><tbody>" + data_row + "</tbody></table>"
+    outer_table = "<table><tbody><tr><td>" + nested_table + "</td></tr></tbody></table>"
+    html = "<html><body>" + outer_table + "</body></html>"
+
+    with pytest.raises(WikipediaAdaptationError) as exc_info:
+        parse_adaptation_page(html)
+
+    assert "no recognizable adaptation table" in str(exc_info.value)
