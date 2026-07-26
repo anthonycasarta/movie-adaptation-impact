@@ -112,3 +112,26 @@ def test_unrelated_table_is_ignored_when_valid_table_exists() -> None:
 
     assert result.tables_parsed == 1
     assert result.pairs == [{"book_title": "Book", "movie_title": "Film"}]
+
+
+def test_two_valid_tables_are_parsed_in_document_order() -> None:
+    first_table = _table_fragment(
+        "Fiction work(s)",
+        "Film adaptation(s)",
+        first_title="Book One",
+        second_title="Film One",
+    )
+    second_table = _table_fragment(
+        "Fiction work(s)",
+        "Film adaptation(s)",
+        first_title="Book Two",
+        second_title="Film Two",
+    )
+    html = "<html><body>" + first_table + second_table + "</body></html>"
+    result = parse_adaptation_page(html)
+
+    assert result.tables_parsed == 2
+    assert result.pairs == [
+        {"book_title": "Book One", "movie_title": "Film One"},
+        {"book_title": "Book Two", "movie_title": "Film Two"},
+    ]
