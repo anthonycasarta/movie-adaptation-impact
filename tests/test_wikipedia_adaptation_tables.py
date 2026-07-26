@@ -91,3 +91,14 @@ def test_reversed_required_column_order_preserves_mapping() -> None:
 
     assert result.tables_parsed == 1
     assert result.pairs == [{"book_title": "Book", "movie_title": "Film"}]
+
+
+def test_unrelated_columns_do_not_change_mapping() -> None:
+    header_row = "<tr><th>Notes</th><th>Fiction work(s)</th><th>Year</th><th>Film adaptation(s)</th><th>Source</th></tr>"
+    data_row = "<tr><td>n</td><td><i>Book</i></td><td>2001</td><td><i>Film</i></td><td>s</td></tr>"
+    table_html = "<table><thead>" + header_row + "</thead><tbody>" + data_row + "</tbody></table>"
+    html = "<html><body>" + table_html + "</body></html>"
+    result = parse_adaptation_page(html)
+
+    assert result.tables_parsed == 1
+    assert result.pairs == [{"book_title": "Book", "movie_title": "Film"}]
