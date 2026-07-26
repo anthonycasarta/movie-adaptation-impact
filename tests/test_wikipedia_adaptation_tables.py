@@ -150,3 +150,22 @@ def test_changed_header_table_is_ignored_when_valid_table_exists() -> None:
 
     assert result.tables_parsed == 1
     assert result.pairs == [{"book_title": "Book", "movie_title": "Film"}]
+
+
+@pytest.mark.parametrize(
+    "first_header,second_header,missing_header",
+    [
+        ("Fiction work(s)", "Motion picture adaptation(s)", "Film adaptation(s)"),
+        ("Novel(s)", "Film adaptation(s)", "Fiction work(s)"),
+    ],
+)
+def test_missing_exact_required_header_raises_error(
+    first_header: str, second_header: str, missing_header: str
+) -> None:
+    table_fragment = _table_fragment(first_header, second_header)
+    html = "<html><body>" + table_fragment + "</body></html>"
+
+    with pytest.raises(WikipediaAdaptationError) as exc_info:
+        parse_adaptation_page(html)
+
+    assert missing_header in str(exc_info.value)
