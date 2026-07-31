@@ -11,6 +11,20 @@ This file defines persistent workflow rules for agents working in this repositor
 - Only the build agent may check off items after completing or verifying the corresponding work.
 - Proposed or planned work must never be marked complete.
 
+## Simplicity And Delivery
+
+- Prioritize a working vertical slice over speculative completeness.
+- Implement only behavior required by the current step, current fixtures, and existing tests.
+- Prefer direct functions and simple local state over abstractions, generic engines, or future-proofing.
+- Do not add compatibility layers, configuration options, helpers, or public APIs for possible future requirements.
+- Add private helpers only when they materially improve readability or remove real duplication.
+- Harden behavior later when real data, observed failures, or explicit requirements demonstrate the need.
+- Prefer one representative integration test when it adequately verifies the current contract.
+- Add separate tests only for explicit requirements, reproduced bugs, or common failures that would block the basic workflow.
+- Do not create exhaustive input matrices or tests for theoretical malformed data unless explicitly requested.
+- Avoid duplicate tests and assertions that prove behavior already covered by another test.
+- Keep checklists outcome-focused. Do not split trivial implementation details such as individual imports or assignments into separate checklist items.
+
 ## Step Reviews
 
 When asked to review or explain a step, cover:
@@ -27,6 +41,8 @@ When responding, distinguish between:
 
 - Change required: the step is incomplete, ambiguous, contradictory, or points to the wrong file.
 - No change required: the step is being explained or confirmed as written.
+- A step is not incomplete solely because it lacks exhaustive edge-case tests, generalized abstractions, or future-proofing.
+- Recommend additional tests only when they protect an explicit requirement, a reproduced bug, or the basic end-to-end workflow.
 
 ## Checklist Updates
 
@@ -59,6 +75,8 @@ The build agent must:
 - Do not silently choose between conflicting requirements.
 - Do not modify files outside the current step unless the step, its verification, or a necessary dependency explicitly requires it.
 - Do not manually edit generated files unless the current step explicitly requires it.
+- Prefer the simplest implementation that makes the current workflow functional.
+- Do not build generalized infrastructure when a direct implementation satisfies the current requirement.
 
 ## Tool Safety
 
@@ -80,6 +98,9 @@ The build agent must:
 - If verification cannot run, report the exact missing dependency, tool, or other blocker.
 - Attempt a safe, in-scope resolution when possible.
 - Do not substitute manual inspection for a required automated test without reporting that limitation.
+- Use the smallest representative test set that verifies the current behavior.
+- Do not expand verification into exhaustive edge-case coverage unless explicitly required.
+- A focused integration test may replace multiple granular unit tests when it verifies the same contract clearly.
 
 ## Scope
 
