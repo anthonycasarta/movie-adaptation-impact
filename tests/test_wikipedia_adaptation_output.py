@@ -1,19 +1,29 @@
-"""Acceptance tests for Wikipedia adaptation output."""
+"""Acceptance tests for Wikipedia adaptation parsing."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from src.collectors.wikipedia_adaptations import parse_adaptation_page
+import pytest
+
+from src.collectors.wikipedia_adaptations import AdaptationParseResult, WikipediaAdaptationError, parse_adaptation_page
 
 
-def test_parses_adaptation_fixture() -> None:
-    html = (Path(__file__).parent / "fixtures" / "wikipedia_adaptations.html").read_text(
-        encoding="utf-8"
-    )
+def _load_fixture(name: str) -> str:
+    return (Path(__file__).parent / "fixtures" / name).read_text(encoding="utf-8")
+
+
+def test_rejects_non_string_input_before_html_parsing() -> None:
+    with pytest.raises(TypeError):
+        parse_adaptation_page(None)  # type: ignore[arg-type]
+
+
+def test_fixture_parsing_returns_expected_pairs_and_counts() -> None:
+    html = _load_fixture("wikipedia_adaptations.html")
 
     result = parse_adaptation_page(html)
 
+    assert isinstance(result, AdaptationParseResult)
     assert result.pairs == [
         {"book_title": "Example Book", "movie_title": "Example Film"},
         {"book_title": "Multiple Adaptations Book", "movie_title": "First Film"},
@@ -28,3 +38,10 @@ def test_parses_adaptation_fixture() -> None:
     assert result.tables_parsed == 2
     assert result.rows_inspected == 12
     assert result.invalid_rows == 3
+
+
+def test_unrecognized_table_raises_error() -> None:
+    html = "<html><body><table><thead><tr><th>Nothing</th><th>Else</th></tr></thead></table></body></html>"
+
+    with pytest.raises(WikipediaAdaptationError):
+        parse_adaptation_page(html)
